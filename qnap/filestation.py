@@ -114,3 +114,16 @@ class FileStation(Qnap):
                 )
             }
         )
+    
+    def get_share_link_list(self, dir_='ASC', start=0, limit=10000, sort_type='filename'):
+        
+        return self.req(self.endpoint(
+                func='get_share_list',
+                params={
+                    'dir': dir_,
+                    'start': start,
+                    'limit': limit,
+                    'sort': sort_type
+                }
+            )
+        )
