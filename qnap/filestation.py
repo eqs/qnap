@@ -127,3 +127,26 @@ class FileStation(Qnap):
                 }
             )
         )
+    
+    def create_share_link(self, file_path, hostname=None, ssl=False, access_code=None, expire_time=None):
+        
+        params = {}
+        
+        params['path'], params['file_name'] = os.path.split(file_path)
+        params['hostname'] = hostname if hostname is not None else self.host
+        params['ssl'] = 'true' if ssl else 'false'
+        
+        if access_code is not None:
+            params['access_code'] = access_code
+        
+        if expire_time is not None:
+            params['expire_time'] = int(expire_time.timestamp())
+        
+        params['file_total'] = 1
+        params['c'] = 1
+        
+        return self.req(self.endpoint(
+                func='get_share_link',
+                params=params,
+            )
+        )
